@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>HomeWork4</title>
+<!-- </body> -->
+<script type="text/javascript">
+var xmlDoc;
+function loadXML(url) {
+        if (window.XMLHttpRequest) {
+	 	// code for IE7+, Firefox, Chrome, Opera, Safari
+	        xmlhttp = new XMLHttpRequest();
+         }
+        else {
+	 	// code for IE6, IE5
+	        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+         }
+        xmlhttp.open("GET",url,false); //open, send, responseXML are
+	xmlhttp.send(); //properties of XMLHTTPRequest 
+        xmlDoc = xmlhttp.responseXML;
+		if(!xmlDoc) {        
+          alert("XML file does not exist.");
+        }
+	
+	return xmlDoc;
+}
+function getURL() {
+        var url = document.getElementById('inurl').value;
+	xmlDoc = loadXML(url);
+	validateXML(xmlDoc);
+}
+
+function validateXML(xmlDoc) {
+	var rowVal = xmlDoc.getElementsByTagName("Row");
+	if (xmlDoc.documentElement.nodeName=="parsererror") {
+                alert("Error loading XML file: " + xmlDoc.documentElement.childNodes[0].nodeValue);    
+        }
+		else if (rowVal.length < 1) {
+            		window.alert("No Data: Error in XML file");
+      	} 
+	else {
+	var win;   
+	outputVal = generateHTML(xmlDoc);
+	win = window.open("", "XML Parser","scrollbars=1,width=1024,height=600");
+	win.document.write(outputVal);
+	win.document.close();
+	}
+ }
+function generateHTML(xmlDoc) {
+  
+  var html_text;
+  html_text = "<html><head><title>XML Parser</title></head><bo"+"dy><table border='3' style=width:100%><tr>";
+
+			var rowVal = xmlDoc.getElementsByTagName("Row");
+        		if (rowVal.length < 1) {
+            		window.alert("No Data: Error in XML file");
+			} 
+			headerNode = xmlDoc.getElementsByTagName("Header");
+			var headerNodeLength = parseInt(headerNode[0].childElementCount);
+					      		
+			for (var p = 0; p < headerNodeLength ; p++) {
+				header= xmlDoc.getElementsByTagName("Data")[p].childNodes[0].nodeValue;
+				html_text += "<th>" + header + "</th>";
+			}
+			html_text += "</tr>";
+
+
+	var x = xmlDoc.getElementsByTagName("Row");            
+        for(i = 0; i < x.length; i++) {
+                html_text +="<tr><td>";
+			//	if (x[i].getElementsByTagName("Network")[0].childNodes[0].nodeValue.trim()) {
+                if (x[i].getElementsByTagName("Network")[0].childNodes.length > 0) {
+				//	if (x[0].getElementsByTagName("Network")[0].val()) {
+                    html_text +=x[i].getElementsByTagName("Network")[0].childNodes[0].nodeValue;
+					//	}
+                }
+                else {
+                    html_text +="";
+                }
+                html_text +="</td><td>";
+                
+                if (x[i].getElementsByTagName("Owner")[0].childNodes.length > 0) {
+                   html_text +=x[i].getElementsByTagName("Owner")[0].childNodes[0].nodeValue; 
+                }
+                else {
+                    html_text +="";
+                }
+                html_text +="</td><td>";
+                
+               // if (x[i].getElementsByTagName("Feeds").length > 0) {
+			   if (x[i].getElementsByTagName("Feeds")[0].childNodes.length > 0) {
+			//x[i].getElementsByTagName("Feeds").childNodes();
+			// if (x[i].getElementsByTagName("Feed")[0].childNodes.length > 0) {
+			var fd = x[i].getElementsByTagName("Feed").length;			
+			for(k = 0; k < fd; k++){
+					if (x[i].getElementsByTagName("Feed")[0].childNodes.length > 0)
+					if (x[i].getElementsByTagName("Feed")[k].childNodes[0].nodeValue.trim())
+                   html_text +="<li text-align=right>"+x[i].getElementsByTagName("Feed")[k].childNodes[0].nodeValue+"</li>";
+		}
+                }
+                else {
+                     html_text +="";
+                }
+                html_text +="</td><td>";
+                
+                if (x[i].getElementsByTagName("Notes")[0].childNodes.length > 0) {
+                   html_text +=x[i].getElementsByTagName("Notes")[0].childNodes[0].nodeValue;
+                }
+                else {
+                     html_text +="";
+                }
+                html_text +="</td><td>";
+                
+                if (x[i].getElementsByTagName("HomePage")[0].childNodes.length > 0) {
+
+                   html_text +="<a href>"+x[i].getElementsByTagName("HomePage")[0].childNodes[0].nodeValue+"</a>";
+                }
+                else {
+                     html_text +="";
+                }
+                html_text +="</td><td>";
+                
+                               
+                if (x[i].getElementsByTagName("Logo")[0].childNodes.length > 0) {
+                   html_text +="<img src=\"";
+                   html_text +=x[i].getElementsByTagName("Logo")[0].childNodes[0].nodeValue;
+                  html_text +="\" width=\"200px\">";
+                }
+                else {
+                     html_text +="";
+                }
+                html_text +="</td></tr>";
+            }
+			html_text += "</table></bo"+"dy></html>";
+			return html_text;
+	}
+	
+ </script>
+ </head>
+<body>
+    <center>
+    <h3>Enter URL for Company List XML File</h3>
+	<form>
+ <input type="text" id="inurl">
+    <br> </br>
+    <br> </br>
+    <button onclick="getURL()">Submit Query</button>
+    </center>
+	</form>
+<noscript/>
+ </body>
+</html>
+
