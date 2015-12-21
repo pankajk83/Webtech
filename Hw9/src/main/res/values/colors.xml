@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorHourlyEven">#b7b7b7</color>
+    <color name="colorHourlyOdd">#FFFFFF</color>
+    <color name="Black">#000000</color>
+    <color name="hourlyHeading">#69d2cc</color>
+    <color name="expand_button">#84ECE6</color>
+    <array name="colors">
+        <item>#ffb26a</item>
+        <item>#a0dbff</item>
+        <item>#f797c5</item>
+        <item>#b1f58d</item>
+        <item>#f4a39c</item>
+        <item>#daf576</item>
+        <item>#9ea1fa</item>
+    </array>
+</resources>
